@@ -1,0 +1,384 @@
+.app {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.app-eyebrow {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--rust);
+  transform: rotate(-2deg);
+}
+
+.app-header h1 {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  margin: 2px 0 0;
+  color: var(--ink);
+}
+
+.error-banner {
+  background: #f4d9d3;
+  color: #7a2a1c;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  border: 1px solid rgba(122, 42, 28, 0.25);
+}
+
+/* ---------- Polaroid camera frame ---------- */
+.polaroid-frame {
+  background: var(--paper);
+  padding: 14px 14px 6px;
+  border-radius: 2px;
+  box-shadow: 0 18px 34px rgba(30, 20, 10, 0.28);
+  transform: rotate(-1.2deg);
+  position: relative;
+}
+
+.polaroid-frame::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e0745e, var(--rust));
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.polaroid-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.polaroid-photo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  text-align: center;
+  padding: 8px 0 6px;
+  color: var(--ink);
+}
+
+.countdown-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 68px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.countdown-overlay.flash {
+  background: rgba(255, 255, 255, 0.85);
+  animation: flashPop 0.35s ease;
+}
+
+@keyframes flashPop {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.switch-cam-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-cam-btn:disabled {
+  opacity: 0.35;
+}
+
+/* ---------- Controls ---------- */
+.controls {
+  margin-top: 22px;
+}
+
+.control-label {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--rust);
+  margin: 18px 0 8px;
+}
+
+.controls section:first-child .control-label {
+  margin-top: 0;
+}
+
+/* Layout picker */
+.frame-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+.frame-card {
+  border: none;
+  background: var(--paper);
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 8px rgba(30, 20, 10, 0.15);
+  transition: transform 0.15s ease;
+  position: relative;
+}
+
+.frame-card.active {
+  transform: translateY(-3px);
+}
+
+.frame-card.active::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--rust);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.frame-preview {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  background: #d9cdba;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.frame-preview-slot {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #cabfa8;
+}
+
+.frame-card-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.frame-card-sub {
+  font-size: 10px;
+  color: #8a7a68;
+}
+
+/* Board background swatches */
+.bg-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.bg-swatch {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid var(--paper);
+  box-shadow: 0 2px 6px rgba(30, 20, 10, 0.25);
+  padding: 0;
+}
+
+.bg-swatch.active {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Filter chips */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.filter-chip {
+  border: none;
+  background: none;
+  padding: 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  position: relative;
+}
+
+.filter-chip.active {
+  color: var(--rust);
+  font-weight: 700;
+}
+
+.filter-chip.active::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  height: 6px;
+  background: var(--mustard);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.brand-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 3px;
+  background: var(--paper);
+  box-shadow: 0 3px 8px rgba(30, 20, 10, 0.15);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.brand-input::placeholder {
+  color: #b3a48e;
+}
+
+/* Buttons — ticket-stub style */
+.primary-btn,
+.secondary-btn {
+  width: 100%;
+  display: block;
+  text-align: center;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+}
+
+.primary-btn {
+  margin-top: 26px;
+  border: none;
+  background: var(--rust);
+  color: #fff9f2;
+  box-shadow: 0 10px 22px rgba(168, 67, 46, 0.4);
+  transform: rotate(-0.5deg);
+}
+
+.primary-btn:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.secondary-btn {
+  margin-top: 10px;
+  border: 2px dashed var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+
+/* ---------- Shooting stage: mini corkboard ---------- */
+.mini-board {
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(30, 20, 10, 0.2);
+  overflow: hidden;
+}
+
+.mini-board-slot {
+  position: absolute;
+  background: var(--paper);
+  padding: 4%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.mini-board-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Enhancing stage ---------- */
+.enhancing-stage {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.film-strip-loader {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.film-strip-loader span {
+  width: 34px;
+  height: 24px;
+  background: #cabfa8;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.film-strip-loader span.done {
+  background: var(--rust);
+}
+
+.enhancing-stage p {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--ink);
+}
+
+/* ---------- Review stage ---------- */
+.review-stage {
+  text-align: center;
+  margin-top: 6px;
+}
+
+.final-image {
+  max-width: 320px;
+  margin: 0 auto 22px;
+  border-radius: 3px;
+  box-shadow: 0 20px 44px rgba(30, 20, 10, 0.35);
+  transform: rotate(0.6deg);
+}
+
+.review-actions {
+  max-width: 280px;
+  margin: 0 auto;
+}
