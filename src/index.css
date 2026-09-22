@@ -1,10 +1,34 @@
 :root {
-  --ink: #2b2420;
-  --paper: #faf6ee;
-  --rust: #a8432e;
-  --mustard: #c99a3e;
-  --page-bg: #d9cbaa;
-  --page-bg-2: #c7b78e;
+  /* ---- design tokens ---- */
+  --ink: #241d1a;
+  --ink-soft: #7a6c60;
+  --paper: #ffffff;
+  --cream: #fffaf3;
+
+  --primary: #ff5c4d;
+  --primary-dark: #e2402f;
+  --primary-tint: #ffe4df;
+
+  --accent: #ffb648;
+  --accent-dark: #f09a1e;
+
+  --pop: #7c5cff;
+  --pop-tint: #ece6ff;
+
+  --page-bg: #fff4e8;
+
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 8px rgba(36, 29, 26, 0.06);
+  --shadow-md: 0 10px 28px rgba(36, 29, 26, 0.10);
+  --shadow-lg: 0 22px 50px rgba(36, 29, 26, 0.16);
+  --shadow-primary: 0 14px 30px rgba(226, 64, 47, 0.35);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 * {
@@ -24,10 +48,12 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 0px);
   background-color: var(--page-bg);
   background-image:
-    radial-gradient(circle at 20% 15%, rgba(255,255,255,0.25) 0, transparent 45%),
-    radial-gradient(circle at 80% 85%, rgba(0,0,0,0.06) 0, transparent 50%),
-    linear-gradient(160deg, var(--page-bg) 0%, var(--page-bg-2) 100%);
+    radial-gradient(38% 30% at 88% -4%, rgba(255, 182, 72, 0.35), transparent 60%),
+    radial-gradient(45% 35% at -6% 12%, rgba(124, 92, 255, 0.16), transparent 60%),
+    radial-gradient(40% 32% at 100% 100%, rgba(255, 92, 77, 0.16), transparent 60%),
+    linear-gradient(180deg, #fff8ee 0%, #fff2e2 100%);
   background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
 button {
@@ -35,7 +61,18 @@ button {
   cursor: pointer;
 }
 
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--pop);
+  outline-offset: 2px;
+}
+
 img {
   max-width: 100%;
   display: block;
+}
+
+::selection {
+  background: var(--primary-tint);
+  color: var(--primary-dark);
 }

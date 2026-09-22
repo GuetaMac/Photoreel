@@ -81,6 +81,32 @@ export const BACKGROUNDS = [
       ctx.fillRect(0, 0, w, h)
     },
   },
+  {
+    id: 'rose',
+    label: 'Rose Gold',
+    swatch: '#c98a8a',
+    ink: '#3c2020',
+    draw(ctx, w, h) {
+      const g = ctx.createLinearGradient(0, 0, 0, h)
+      g.addColorStop(0, '#d99a97')
+      g.addColorStop(1, '#b8716f')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+    },
+  },
+  {
+    id: 'lavender',
+    label: 'Lavender',
+    swatch: '#8a7cae',
+    ink: '#2a2338',
+    draw(ctx, w, h) {
+      const g = ctx.createLinearGradient(0, 0, 0, h)
+      g.addColorStop(0, '#9c8dc2')
+      g.addColorStop(1, '#786a9e')
+      ctx.fillStyle = g
+      ctx.fillRect(0, 0, w, h)
+    },
+  },
 ]
 
 export const getBackground = (id) => BACKGROUNDS.find((b) => b.id === id) || BACKGROUNDS[0]

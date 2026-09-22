@@ -54,6 +54,34 @@ export const FRAMES = [
     photoAreaH: 1000,
     slots: [{ x: 0.08, y: 0.05, w: 0.84, h: 0.9, rot: -1 }],
   },
+  {
+    id: 'duo',
+    label: 'Duo',
+    shots: 2,
+    layout: 'collage',
+    photoAreaW: 1000,
+    photoAreaH: 700,
+    slots: [
+      { x: 0.04, y: 0.06, w: 0.46, h: 0.88, rot: -2.5 },
+      { x: 0.52, y: 0.06, w: 0.46, h: 0.88, rot: 2.5 },
+    ],
+  },
+  {
+    id: 'sixstrip',
+    label: 'Party Six',
+    shots: 6,
+    layout: 'strip',
+    photoAreaW: 700,
+    photoAreaH: 3050,
+    slots: [
+      { x: 0.0286, y: 0.0072, w: 0.9429, h: 0.1584, rot: 0 },
+      { x: 0.0286, y: 0.1738, w: 0.9429, h: 0.1584, rot: 0 },
+      { x: 0.0286, y: 0.3404, w: 0.9429, h: 0.1584, rot: 0 },
+      { x: 0.0286, y: 0.5070, w: 0.9429, h: 0.1584, rot: 0 },
+      { x: 0.0286, y: 0.6736, w: 0.9429, h: 0.1584, rot: 0 },
+      { x: 0.0286, y: 0.8402, w: 0.9429, h: 0.1584, rot: 0 },
+    ],
+  },
 ]
 
 export const getFrame = (id) => FRAMES.find((f) => f.id === id) || FRAMES[0]
