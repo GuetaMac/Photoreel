@@ -51,6 +51,21 @@ function autoLevels(imageData) {
   }
 }
 
+// Lifts shadow detail using a curve weighted toward the darkest pixels
+// (via (1 - v/255)^2), so a dim background/corner gets real detail
+// back while midtones and highlights are barely touched — avoids the
+// "washed out" look a flat brightness boost would cause.
+function shadowLift(imageData, amount = 0.14) {
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    for (let c = 0; c < 3; c++) {
+      const v = data[i + c];
+      const weight = Math.pow(1 - v / 255, 2);
+      data[i + c] = clamp(v + amount * 255 * weight);
+    }
+  }
+}
+
 // Mild unsharp mask — a 3x3 sharpen kernel blended with the original
 // at `amount` strength, which recovers perceived detail that gets
 // lost to webcam/phone compression without haloing artifacts.
@@ -118,11 +133,49 @@ function colorPop(sourceCanvas) {
   return out;
 }
 
+// Soft radial vignette — darkens the corners/edges a touch so the eye
+// is pulled toward the center of the frame (the subject) instead of
+// wandering into a busy corner of the background. Uses multiply blend
+// so it only ever darkens, never washes out or tints the image.
+function vignette(sourceCanvas, strength = 0.32) {
+  const w = sourceCanvas.width;
+  const h = sourceCanvas.height;
+
+  const out = document.createElement("canvas");
+  out.width = w;
+  out.height = h;
+  const ctx = out.getContext("2d");
+  ctx.drawImage(sourceCanvas, 0, 0);
+
+  const cx = w / 2;
+  const cy = h / 2;
+  const outerRadius = Math.sqrt(cx * cx + cy * cy);
+
+  const gradient = ctx.createRadialGradient(
+    cx,
+    cy,
+    outerRadius * 0.55,
+    cx,
+    cy,
+    outerRadius,
+  );
+  gradient.addColorStop(0, "rgba(0,0,0,0)");
+  gradient.addColorStop(1, `rgba(0,0,0,${strength})`);
+
+  ctx.globalCompositeOperation = "multiply";
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = "source-over";
+
+  return out;
+}
+
 export async function enhanceImage(dataUrl) {
   const img = await loadImage(dataUrl);
 
-  // Stage 1 — auto-levels + sharpen on raw pixel data (fixes flat,
-  // washed-out webcam exposure and recovers perceived detail).
+  // Stage 1 — auto-levels + shadow lift + sharpen on raw pixel data
+  // (fixes flat, washed-out webcam exposure, recovers dark-corner
+  // detail, and recovers perceived sharpness).
   const base = document.createElement("canvas");
   base.width = img.width;
   base.height = img.height;
@@ -131,6 +184,7 @@ export async function enhanceImage(dataUrl) {
 
   const imageData = baseCtx.getImageData(0, 0, base.width, base.height);
   autoLevels(imageData);
+  shadowLift(imageData, 0.14);
   sharpen(imageData, base.width, base.height, 0.5);
   baseCtx.putImageData(imageData, 0, 0);
 
@@ -138,7 +192,10 @@ export async function enhanceImage(dataUrl) {
   const glowed = softGlow(base);
 
   // Stage 3 — final color grade / vibrance pop.
-  const finalCanvas = colorPop(glowed);
+  const colorGraded = colorPop(glowed);
+
+  // Stage 4 — vignette to pull focus toward the subject.
+  const finalCanvas = vignette(colorGraded, 0.32);
 
   return finalCanvas.toDataURL("image/png");
 }
