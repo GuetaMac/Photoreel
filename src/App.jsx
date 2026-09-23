@@ -2,6 +2,9 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import FilterBar from "./components/FilterBar";
 import FrameSelector from "./components/FrameSelector";
 import BackgroundSelector from "./components/BackgroundSelector";
+import InstallBanner from "./components/InstallBanner";
+import UpdateToast from "./components/UpdateToast";
+import OfflineIndicator from "./components/OfflineIndicator";
 
 import {
   CameraIcon,
@@ -307,6 +310,8 @@ export default function App() {
 
   return (
     <div className="app-shell">
+      <InstallBanner />
+      <UpdateToast />
       <header className="app-header">
         <div className="brand-lockup">
           <span className="logo-mark" aria-hidden="true">
@@ -338,6 +343,7 @@ export default function App() {
             <span className="dot" /> <span className="step-label">Result</span>
           </span>
         </nav>
+        <OfflineIndicator />
       </header>
 
       {error && (
